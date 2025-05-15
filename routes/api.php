@@ -26,7 +26,7 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/db-test', function () {
+Route::get('/dbtest', function () {
     $dbStatus = ['status' => 'unknown', 'message' => ''];
     try {
         DB::connection()->getPdo();
