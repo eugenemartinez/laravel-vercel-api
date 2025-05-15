@@ -56,29 +56,16 @@
             "@php artisan test"
         ],
         "vercel-build": [
-            "echo 'Ensuring bootstrap/cache directory exists'",
-            "mkdir -p $PWD/bootstrap/cache",
-
-            "echo 'Caching configuration'",
             "php artisan config:cache",
-            "echo 'Copying config cache to /tmp/config.php'",
-            "if [ -f $PWD/bootstrap/cache/config.php ]; then cp $PWD/bootstrap/cache/config.php /tmp/config.php; else echo 'bootstrap/cache/config.php not found, skipping copy.'; fi",
-
-            "echo 'Caching routes'",
             "php artisan route:cache",
-            "ROUTE_CACHE_FILE=$(find $PWD/bootstrap/cache -name 'routes*.php' -print -quit || echo '')",
-            "echo \"Found route cache file: $ROUTE_CACHE_FILE\"",
-            "if [ -f \"$ROUTE_CACHE_FILE\" ]; then echo 'Copying routes cache to /tmp/routes.php'; cp \"$ROUTE_CACHE_FILE\" /tmp/routes.php; else echo 'Routes cache file not found in bootstrap/cache, skipping copy.'; fi",
-
             "echo 'Linking storage directories to /tmp for Vercel'",
-            "rm -rf $PWD/storage",
+            "rm -rf storage",
             "ln -s /tmp $PWD/storage",
-            "echo 'Creating framework directories in /tmp'",
             "mkdir -p /tmp/framework/sessions",
             "mkdir -p /tmp/framework/views",
             "mkdir -p /tmp/framework/cache/data",
             "mkdir -p /tmp/logs",
-            "echo 'Setting permissions for /tmp'",
+            "mkdir -p $PWD/bootstrap/cache",
             "chmod -R 777 /tmp"
         ]
     },
