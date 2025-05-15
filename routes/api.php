@@ -18,25 +18,26 @@ use App\Http\Controllers\ItemController;
 */
 
 Route::get('/', function () {
-    $dbStatus = ['status' => 'unknown', 'message' => ''];
+    return response()->json([
+        'message' => 'Hello World from Laravel on Vercel!',
+        'status' => 'success',
+        'php_version' => phpversion(),
+        'laravel_version' => app()->version()
+    ]);
+});
 
+Route::get('/db-test', function () {
+    $dbStatus = ['status' => 'unknown', 'message' => ''];
     try {
         DB::connection()->getPdo();
         $dbStatus['status'] = 'success';
         $dbStatus['message'] = 'Successfully connected to the database.';
     } catch (\Exception $e) {
-        Log::error('DB Connection Error from /api route: ' . $e->getMessage(), ['exception' => $e]);
+        Log::error('DB Connection Error from /api/db-test route: ' . $e->getMessage(), ['exception' => $e]);
         $dbStatus['status'] = 'error';
         $dbStatus['message'] = 'Could not connect to the database. Check logs for details. Error: ' . $e->getMessage();
     }
-
-    return response()->json([
-        'message' => 'Hello World from Laravel on Vercel!',
-        'status' => 'success',
-        'php_version' => phpversion(),
-        'laravel_version' => app()->version(),
-        'database_connection' => $dbStatus
-    ]);
+    return response()->json($dbStatus);
 });
 
 // API Resource routes for Items
