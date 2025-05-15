@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ItemController; // Ensure this line is present or use App\Http\Controllers\Api\ItemController if you placed it in an Api subfolder
 
 /*
 |--------------------------------------------------------------------------
@@ -23,11 +24,23 @@ Route::get('/', function () {
     ]);
 });
 
-// You can comment out or remove any other routes you had for now
+// Uncomment this line to enable your Item CRUD routes
+Route::apiResource('items', ItemController::class); // Or App\Http\Controllers\Api\ItemController::class if it's in a subfolder
+
+// Optional: A simple database connection test route
+Route::get('/db-test', function () {
+    try {
+        \Illuminate\Support\Facades\DB::connection()->getPdo();
+        return response()->json(['message' => 'Successfully connected to the database.']);
+    } catch (\Exception $e) {
+        // Log the detailed error for server-side inspection
+        \Illuminate\Support\Facades\Log::error('DB Connection Error: ' . $e->getMessage(), ['exception' => $e]);
+        return response()->json(['message' => 'Could not connect to the database. Please check your configuration.'], 500);
+    }
+});
+
 /*
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-Route::apiResource('items', App\Http\Controllers\ItemController::class);
 */
