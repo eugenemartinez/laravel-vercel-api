@@ -56,17 +56,29 @@
             "@php artisan test"
         ],
         "vercel-build": [
+            "echo 'VERCEL BUILD SCRIPT: Ensuring bootstrap/cache directory exists'",
+            "mkdir -p $PWD/bootstrap/cache",
+
+            "echo 'VERCEL BUILD SCRIPT: Caching configuration'",
             "php artisan config:cache",
+            "echo 'VERCEL BUILD SCRIPT: Copying config cache to /tmp/config.php'",
+            "if [ -f $PWD/bootstrap/cache/config.php ]; then cp $PWD/bootstrap/cache/config.php /tmp/config.php; else echo 'bootstrap/cache/config.php not found, skipping copy.'; fi",
+
+            "echo 'VERCEL BUILD SCRIPT: Caching routes'",
             "php artisan route:cache",
-            "echo 'Linking storage directories to /tmp for Vercel'",
-            "rm -rf storage",
+            "ROUTE_CACHE_FILE=$(find $PWD/bootstrap/cache -name 'routes*.php' -print -quit || echo '')",
+            "echo \"VERCEL BUILD SCRIPT: Found route cache file: $ROUTE_CACHE_FILE\"",
+            "if [ -f \"$ROUTE_CACHE_FILE\" ]; then echo 'VERCEL BUILD SCRIPT: Copying routes cache to /tmp/routes.php'; cp \"$ROUTE_CACHE_FILE\" /tmp/routes.php; else echo 'Routes cache file not found in bootstrap/cache, skipping copy.'; fi",
+
+            "echo 'VERCEL BUILD SCRIPT: Linking storage and creating framework dirs in /tmp'",
+            "rm -rf $PWD/storage",
             "ln -s /tmp $PWD/storage",
             "mkdir -p /tmp/framework/sessions",
             "mkdir -p /tmp/framework/views",
             "mkdir -p /tmp/framework/cache/data",
             "mkdir -p /tmp/logs",
-            "mkdir -p $PWD/bootstrap/cache",
-            "chmod -R 777 /tmp"
+            "chmod -R 777 /tmp",
+            "echo 'VERCEL BUILD SCRIPT: Finished.'"
         ]
     },
     "extra": {

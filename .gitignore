@@ -1,5 +1,5 @@
+# Laravel
 /.phpunit.cache
-/node_modules
 /public/build
 /public/hot
 /public/storage
@@ -8,7 +8,7 @@
 /vendor
 .env
 .env.backup
-.env.production
+# .env.production # Keep if you want to commit a template, otherwise ignore
 .phpactor.json
 .phpunit.result.cache
 Homestead.json
@@ -16,8 +16,41 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 /auth.json
+
+# IDE / Editor specific
 /.fleet
 /.idea
 /.nova
 /.vscode
 /.zed
+
+# Node / Frontend general
+/node_modules
+
+# Frontend subdirectory specific
+/frontend/node_modules/
+/frontend/dist/
+/frontend/.env
+/frontend/.env.*
+!/frontend/.env.example
+/frontend/.DS_Store
+/frontend/npm-debug.log*
+/frontend/yarn-debug.log*
+/frontend/yarn-error.log*
+/frontend/coverage/
+/frontend/.eslintcache
+
+# Frontend IDE / Editor specific
+/frontend/.vscode/
+/frontend/.idea/
+/frontend/.fleet/
+/frontend/.zed/
+
+# Vue / Vite specific build artifacts (if any outside dist)
+/frontend/.vite/
+/frontend/.nuxt/ # If you were using Nuxt
+/frontend/.output/ # Common for Nuxt 3
+
+# Operating System files
+.DS_Store
+Thumbs.db
