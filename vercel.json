@@ -26,18 +26,18 @@
             "headers": {
                 "Cache-Control": "public, max-age=31536000, immutable"
             },
-            "dest": "/frontend/dist/assets/$1"
+            "dest": "/frontend/assets/$1"
         },
         {
             "src": "/(favicon\\.ico|manifest\\.webmanifest|robots\\.txt|img/.*)",
-            "dest": "/frontend/dist/$1"
+            "dest": "/frontend/$1"
         },
         {
             "handle": "filesystem"
         },
         {
             "src": "/(.*)",
-            "dest": "/frontend/dist/index.html"
+            "dest": "/frontend/index.html"
         }
     ],
     "env": {
