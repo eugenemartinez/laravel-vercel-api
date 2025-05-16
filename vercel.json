@@ -5,7 +5,7 @@
             "src": "api/index.php",
             "use": "vercel-php@0.7.3",
             "config": {
-                "build": "./vercel-build.sh"
+                "build": "echo 'vercel.json: Starting Vercel build process...' && echo 'vercel.json: Building Vue.js frontend...' && (if [ -d 'frontend' ]; then cd frontend && echo 'vercel.json: Installing frontend dependencies...' && npm install && echo 'vercel.json: Running frontend build...' && npm run build && cd ..; else echo 'vercel.json: frontend directory not found, skipping Vue build.'; fi) && echo 'vercel.json: Frontend build complete.' && echo 'vercel.json: Caching Laravel backend...' && php artisan config:cache && php artisan route:cache && php artisan view:cache && php artisan event:cache && echo 'vercel.json: Laravel caching complete. Build finished.'"
             }
         }
     ],
