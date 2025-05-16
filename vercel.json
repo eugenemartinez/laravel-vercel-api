@@ -2,10 +2,17 @@
     "version": 2,
     "builds": [
         {
+            "src": "frontend/package.json",
+            "use": "@vercel/static-build",
+            "config": {
+                "distDir": "dist"
+            }
+        },
+        {
             "src": "api/index.php",
             "use": "vercel-php@0.7.3",
             "config": {
-                "build": "./vercel-build.sh"
+                 "build": "echo 'PHP build step: Running Laravel caching...' && php artisan config:cache && php artisan route:cache && php artisan view:cache && php artisan event:cache && echo 'PHP build step: Laravel caching complete.'"
             }
         }
     ],
